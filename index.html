@@ -80,7 +80,7 @@
                 </div>
                 <button type="submit">Зарегистрироваться</button>
             </div>
-            <p style="display: inline-block; text-align: center; color: red; font-size: 12px;" 
+            <p style="position: absolute;color: red;font-size: 12px;bottom: 20px;left: calc(50% - 70px);transition: 0.5s; color: red; font-size: 12px;"
             v-if="$v.employee.name.$dirty && !$v.employee.name.required || 
                   $v.employee.email.$dirty && !$v.employee.email.required || 
                   $v.employee.password.$dirty && !$v.employee.password.required ||
