@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовое задание Верещагин Павел</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="form-wrapper">
+        <form id="form" @submit.prevent="checkForm()">
+            <span style="position: absolute;font-size: 31px;font-weight: 700;top: calc(50% - 19px);left: calc(50% - 264px);z-index: 0;">Регистрация прошла успешно!</span>
+            <div class="form-inner">
+                <div class="form-header">
+                    <h1>Регистрация</h1>
+                </div>
+                <hr>
+                <div class="form-body">
+                    <p>Заполните Ваши данные</p>
+                    <div class="body-firstLane">
+                        <label>
+                        <input type="text" placeholder="Имя" v-model.trim="employee.name" :class="$v.employee.name.$error ? 'is-invalid' : ''">
+                        <span class="errorText" v-if="$v.employee.name.$dirty && !$v.employee.name.alpha" >Можно только русские буквы! Вы же русский человек</span>
+                    </label>
+                    <label>
+                        <input type="text" placeholder="Email" v-model.trim="employee.email" :class="$v.employee.email.$error ? 'is-invalid' : ''">
+                        <span class="errorText" v-if="$v.employee.email.$dirty && !$v.employee.email.email">Впишите что-то похожее на email, пожалуйста</span>
+                    </label>
+                </div>
+            <div class="body-middleLane">
+                <label>
+                    <select v-model="employee.role" :class="$v.employee.role.$error ? 'is-invalid' : ''">
+                        <option :value="null" disabled>Должность :</option>
+                        <option v-for="role in roles" :value="role.value"> {{role.label}}</option>
+                    </select>
+                    <span class="errorText" v-if="$v.employee.role.$dirty && !$v.employee.role.required">Надо выбрать</span>
+                </label>
+            </div>
+            <div class="body-lastLane">
+                <div class="pass-area">
+                    <input type="password" placeholder="Пароль" v-model.trim="employee.password" v-show="!showPass" :class="$v.employee.password.$error || $v.employee.password.$model !== $v.employee.password_repeat.$model ? 'is-invalid' : ''">
+                    <input type="text" placeholder="Пароль" v-model.trim="employee.password" v-show="showPass" :class="$v.employee.password.$error || $v.employee.password.$model !== $v.employee.password_repeat.$model ? 'is-invalid' : ''">
+                    <span id="passEye" @click="showPass = !showPass" :class="{showedPass : showPass, hidedPass : !showPass}"></span>
+                    <p class="errorText" v-if="$v.employee.password.$dirty && $v.employee.password.$model !== $v.employee.password_repeat.$model">Пароли должны совпадать!</p>
+                </div>
+                <div class="pass-area">
+                    <input type="password" placeholder="Повторите Пароль" v-model.trim="employee.password_repeat" v-show="!showPass" :class="$v.employee.password_repeat.$error || $v.employee.password.$model !== $v.employee.password_repeat.$model ? 'is-invalid' : ''">
+                    <input type="text" placeholder="Повторите Пароль" v-model.trim="employee.password_repeat" v-show="showPass" :class="$v.employee.password_repeat.$error || $v.employee.password.$model !== $v.employee.password_repeat.$model ? 'is-invalid' : ''">
+                    <span id="passEye" @click="showPass = !showPass" :class="{showedPass : showPass, hidedPass : !showPass}"></span>
+                    <p class="errorText" v-if="$v.employee.password.$dirty && $v.employee.password.$model !== $v.employee.password_repeat.$model">Пароли должно совпадать!</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-footer">
+            <div class="footer-firstLane">
+                <div class="checkbox-area">
+                    <div class="button r" id="button-1">
+                      <input type="checkbox" class="checkbox" checked v-model="employee.public"/>
+                      <div class="knobs"></div>
+                      <div class="layer"></div>
+                    </div>
+                </div>
+                <div class="text-area">
+                    <p>Хотите чтобы Ваш профиль видели другие участники платформы?</p>
+                    <p>Включает профиль для просмотра другими пользователями по ссылке</p>
+                </div>
+            </div>
+            <div class="footer-lastLane">
+                <div class="checkbox-area">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" checked v-model="policy" :class="{'is-invalid' : !policy, '' : policy}">
+                    </div>
+                    <div class="text-area">
+                        <p>Регистрируясь, Вы соглашаетесь с <a href="#">политикой конфиденциальности</a> и обработкой <a href="#">персональных данных</a>. <span style="color: red; font-size: 12px;" v-if="!policy">Несогласных не регистрируем</span></p>
+                    </div>
+                </div>
+                <button type="submit">Зарегистрироваться</button>
+            </div>
+            <p style="display: inline-block; text-align: center; color: red; font-size: 12px;" 
+            v-if="$v.employee.name.$dirty && !$v.employee.name.required || 
+                  $v.employee.email.$dirty && !$v.employee.email.required || 
+                  $v.employee.password.$dirty && !$v.employee.password.required ||
+                  $v.employee.password_repeat.$dirty && !$v.employee.password_repeat.required"
+                  >Все поля обязательны</p>
+                  <span class="loading">Отправка данных <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+            </div>
+        </form>
+    </div>
+    <div class="mainBlock">
+        <div class="mainBlock-inner">
+            <div>
+                <p class="mainText">
+                    Тестовое задание (форма регистрации) By Верещагин Павел
+                </p>
+                <br>
+                <p class="mainText">
+                    'На моем компъютере все работает'
+                </p>
+            </div>
+            <br>
+            <div>
+                <p class="mainText">
+                    P.S: Я решил подойти к выполнению тестового с небольшим 
+                    креативом, дабы, как-то, запомниться вам и выделяться на фоне остальных кандидатов.
+                </p>
+                <br>
+                <p class="mainText">
+                    Надеюсь я не переборщил...
+                </p>
+            </div>
+        </div>
+        <br>
+        <button id="mainButton">Проверить задание</button>
+    </div>
+</div>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<script src="vuelidate/dist/vuelidate.min.js"></script>
+<script src="vuelidate/dist/validators.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/letterizejs@2.0.1/lib/letterize.min.js"></script>
+<script>
+const mainText = new Letterize({
+	targets: '.mainText'
+})
+let mainTextArray = mainText.listAll
+shuffle(mainTextArray)
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        startReveal()
+        document.querySelector('#mainButton').setAttribute('style', 'opacity: 1')
+        document.querySelector('#mainButton').addEventListener('click', () => {
+            document.querySelector('.mainBlock').setAttribute('style','display: none')
+        })
+    }, 2000);
+})
+
+
+function startReveal(){
+	for (let i = 0; i <= (mainTextArray.length - 1); i++){
+		revealmainText(i)
+	}
+}
+
+function revealmainText(i) {
+	setTimeout(function() {
+		mainTextArray[i].setAttribute('style', `color: inherit; `);
+	}, 10 * i);
+}
+
+function shuffle(array) {
+	let currentIndex = array.length,  randomIndex;
+	while (currentIndex > 0) {
+  
+	  // Pick a remaining element.
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex--;
+
+	  [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+	}
+	return array;
+  }
+</script>
+<script>
+var validationMixin = window.vuelidate.validationMixin;
+var required = validators.required;
+var alpha = validators.alpha;
+var email = validators.email;
+var sameAs = validators.sameAs;
+
+var form = new Vue({
+  el: "#form",
+  mixins: [validationMixin],
+  data() {
+    return {
+        employee: {
+            name: '',
+            email: '',
+            role: null,
+            password: '',
+            password_repeat: '',
+            public: true,
+        },
+        roles: [
+            {label: 'Начальник', value: 1},
+            {label: 'Менеджер', value: 2},
+            {label: 'Раб', value: 3}
+        ],
+        showPass: false,
+        showedPass: 'showedPass',
+        hidedPass: 'hidedPass',
+        policy: true,
+    }
+  },
+  validations: {
+    employee: {
+        name: {
+            required,
+            alpha
+        },
+        email: {
+            required,
+            email
+        },
+        role: {
+            required,
+        },
+        password: {
+            required,
+        },
+        password_repeat: {
+            required,
+        }
+    },
+
+
+  },
+  methods: {
+     makeMockRequest(url, data, callback) {
+  setTimeout(() => {
+    const response = { status: 'success', data: this.employee };
+    callback(response);
+  }, 3000);
+},
+
+createRecord(data) {
+  this.makeMockRequest('/api/records', data, (response) => {
+    if (response.status === 'success') {
+      console.log('Регистрация успешно пройдена!', response.data);
+      document.querySelector('.form-inner').setAttribute('style', 'transform: scale(0)')
+    } else {
+      console.error('Ошибка......', response.error);
+    }
+  });
+},
+
+    checkForm() {
+        this.$v.employee.$touch()
+        if (this.$v.employee.$error || !this.policy || this.$v.employee.password.$model !== this.$v.employee.password_repeat.$model) {
+            console.log('Ошибка валидации!');
+        } else {
+            console.log('Успех валидации!');
+            document.querySelector('.loading').setAttribute('style','opacity: 1');
+            this.createRecord();
+        }
+    },
+
+
+  },
+});
+
+</script>
+</body>
+</html>
