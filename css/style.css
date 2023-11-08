@@ -11,7 +11,7 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)/*,url(smile.png)*/);
 }
 .form-wrapper #form {
   position: relative;
