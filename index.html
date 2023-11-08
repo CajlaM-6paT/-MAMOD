@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+	
 </head>
 <body>
     <div class="form-wrapper">
@@ -98,18 +99,18 @@
                 </p>
                 <br>
                 <p class="mainText">
-                    'На моем компъютере все работает'
+                    "На моем компьютере все работает"
                 </p>
             </div>
             <br>
             <div>
                 <p class="mainText">
-                    P.S: Я решил подойти к выполнению тестового с небольшим 
-                    креативом, дабы, как-то, запомниться вам и выделяться на фоне остальных кандидатов.
+                   <!--  P.S: Я решил подойти к выполнению тестового с небольшим 
+                    креативом, дабы, как-то, запомниться вам и выделяться на фоне остальных кандидатов. -->
                 </p>
                 <br>
                 <p class="mainText">
-                    Надеюсь, я не переборщил...
+                   <!--  Надеюсь, я не переборщил... -->
                 </p>
             </div>
         </div>
@@ -150,7 +151,7 @@ function startReveal(){
 function revealmainText(i) {
 	setTimeout(function() {
 		mainTextArray[i].setAttribute('style', `color: inherit; `);
-	}, 10 * i);
+	}, 30 * i);
 }
 
 function shuffle(array) {
