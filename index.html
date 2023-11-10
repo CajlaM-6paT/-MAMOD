@@ -127,9 +127,9 @@
 <script>
 const mainText = new Letterize({
 	targets: '.mainText'
-})
-let mainTextArray = mainText.listAll
-shuffle(mainTextArray)
+});
+let mainTextArray = mainText.listAll;
+shuffle(mainTextArray);
 
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
@@ -139,33 +139,28 @@ window.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.mainBlock').setAttribute('style','display: none')
         })
     }, 2000);
-})
-
-
+});
 function startReveal(){
 	for (let i = 0; i <= (mainTextArray.length - 1); i++){
 		revealmainText(i)
-	}
-}
-
+	};
+};
 function revealmainText(i) {
 	setTimeout(function() {
 		mainTextArray[i].setAttribute('style', `color: inherit; `);
 	}, 30 * i);
-}
-
+};
 function shuffle(array) {
 	let currentIndex = array.length,  randomIndex;
 	while (currentIndex > 0) {
   
-	  // Pick a remaining element.
 	  randomIndex = Math.floor(Math.random() * currentIndex);
 	  currentIndex--;
 
 	  [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-	}
+	};
 	return array;
-  }
+  };
 </script>
 <script>
 var validationMixin = window.vuelidate.validationMixin;
@@ -199,27 +194,25 @@ var form = new Vue({
     }
   },
   validations: {
-    employee: {
-        name: {
-            required,
-            alpha
-        },
-        email: {
-            required,
-            email
-        },
-        role: {
-            required,
-        },
-        password: {
-            required,
-        },
-        password_repeat: {
-            required,
-        }
+    	employee: {
+	        name: {
+	            required,
+	            alpha
+	        },
+	        email: {
+	            required,
+	            email
+	        },
+	        role: {
+	            required,
+	        },
+	        password: {
+	            required,
+	        },
+	        password_repeat: {
+	            required,
+	        }
     },
-
-
   },
   methods: {
      makeMockRequest(url, data, callback) {
@@ -240,16 +233,16 @@ createRecord(data) {
   });
 },
 
-    checkForm() {
-        this.$v.employee.$touch()
-        if (this.$v.employee.$error || !this.policy || this.$v.employee.password.$model !== this.$v.employee.password_repeat.$model) {
-            console.log('Ошибка валидации!');
-        } else {
-            console.log('Успех валидации!');
-            document.querySelector('.loading').setAttribute('style','opacity: 1');
-            this.createRecord();
-        }
-    },
+checkForm() {
+ this.$v.employee.$touch()
+  if (this.$v.employee.$error || !this.policy || this.$v.employee.password.$model !== this.$v.employee.password_repeat.$model) {
+	console.log('Ошибка валидации!');
+  } else {
+	console.log('Успех валидации!');
+	document.querySelector('.loading').setAttribute('style','opacity: 1');
+	this.createRecord();
+  }
+},
 
 
   },
